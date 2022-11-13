@@ -1,13 +1,13 @@
-import express from "express";
-import helmet from "helmet";
-import morgan from "morgan";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import globalRouter from "./routers/globalRouter";
-import movieRouter from "./routers/movieRouter";
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import globalRouter from './routers/globalRouter';
+import movieRouter from './routers/movieRouter';
 
 const app = express();
-const logger = morgan("dev");
+const logger = morgan('dev');
 
 app.use(logger);
 app.use(helmet());
@@ -24,10 +24,10 @@ app.use(
       httpOnly: true,
       secure: false,
     },
-  })
+  }),
 );
 
-app.use("/", globalRouter);
-app.use("/movie", movieRouter);
+app.use('/', globalRouter);
+app.use('/movie', movieRouter);
 
 export default app;
