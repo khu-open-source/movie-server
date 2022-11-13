@@ -4,7 +4,11 @@
   "description": "movie server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "format": "prettier --check ./src",
+    "format:fix": "prettier --write ./src",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src"
   },
   "repository": {
     "type": "git",
@@ -28,8 +32,12 @@
   "devDependencies": {
     "@babel/cli": "7.19.3",
     "@babel/core": "7.20.2",
+    "@babel/eslint-parser": "7.19.1",
     "@babel/node": "7.20.2",
     "@babel/preset-env": "7.20.2",
+    "eslint": "8.27.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
     "nodemon": "2.0.20",
     "prettier": "2.7.1"
   }
