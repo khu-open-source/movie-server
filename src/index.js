@@ -6,4 +6,6 @@ const handleListening = () => {
   console.log(`✅ Server Listening on port http://localhost:${PORT} 🚀`);
 };
 
+console.log('hi');
+
 app.listen(PORT, handleListening);
