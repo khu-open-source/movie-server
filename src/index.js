@@ -7,5 +7,6 @@ const handleListening = () => {
 };
 
 console.log('hi');
+console.log('hi2');
 
 app.listen(PORT, handleListening);
