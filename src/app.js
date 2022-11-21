@@ -11,21 +11,26 @@ import db from './db/db';
 import { User } from './db/schema';
 import { auth } from './db/auth'; // auth 슈발 추가햇음
 */
+import loginRouter from './routers/loginRouter';
+import registerRouter from './routers/registerRouter';
 
+const bodyParser = require('body-parser');
 const app = express();
 const logger = morgan('dev');
 
 app.use(logger);
 app.use(helmet());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(
   session({
     resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    // secret: process.env.SESSION_SECRET,
+    secret: 'keyboard cat',
     cookie: {
       httpOnly: true,
       secure: false,
@@ -109,6 +114,8 @@ app.get('/logout', auth, (req, res) => {
 */
 
 app.use('/', globalRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 app.use('/movie', movieRouter);
 app.use('/user', userRouter);
 
