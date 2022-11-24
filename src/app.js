@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import globalRouter from './routers/globalRouter';
 import movieRouter from './routers/movieRouter';
-import dbRouter from './routers/dbRouter';
+import db from './db/db';
 
 const app = express();
 const logger = morgan('dev');
@@ -28,8 +28,9 @@ app.use(
   }),
 );
 
+db;
+
 app.use('/', globalRouter);
 app.use('/movie', movieRouter);
-app.use('/db', dbRouter);
 
 export default app;
