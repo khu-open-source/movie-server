@@ -5,5 +5,6 @@ export const getNowPlayingMoives = async () => {
 };
 
 export const getPopularMoives = async () => {
+  //파라미터로 페이지넘버 받아서 아래 주소에 쿼리로 해당 페이지로 요청
   return await axiosClient.get(`/movie/popular?api_key=${process.env.TMDB_KEY}&language=en-US`);
 };
