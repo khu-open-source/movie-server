@@ -9,8 +9,7 @@ export const handleMoive = async (req, res) => {
 
 export const handlePopularMoive = async (req, res) => {
   // getPopularMovies(..) 파라미터로 req.query 넣어주기
-  const popularMovies = await getPopularMoives();
-  //여기서 한 페이지에서 result 값 접근
+  const popularMovies = await getPopularMoives(req.query.page);
   const results = popularMovies.data['results'];
   for (const rst in results) {
     var genreIds = results[rst]['genre_ids'];
@@ -18,15 +17,13 @@ export const handlePopularMoive = async (req, res) => {
 		for (const id in genreIds) {
 			const genreId = genreIds[id];
 			genreStrings.push(genres[genreId]);
-			//genreStrings로 data의 값 바꿔주기 (for문 끝나기 전에)
 		};
 	results[rst].genre_ids = genreStrings;
 
 	results[rst]['genreList'] = results[rst]['genre_ids'];
 	delete results[rst]['genre_ids'];
-	console.log(results[rst]);
   };
-	
+	// console.log(results);
   res.json(results);
 };
 
