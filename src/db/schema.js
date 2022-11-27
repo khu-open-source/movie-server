@@ -1,46 +1,68 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+const jwt = require('jsonwebtoken'); //여기 슈발
 
-const saltRounds = 12;
+const saltRounds = 10;
 
-const { Schema } = mongoose;
-const UserSchema = new Schema({
-  UserId: {
+const userSchema = mongoose.Schema({
+  name: {
     type: String,
-    required: true,
-    unique: true,
+    maxlength: 50,
   },
-  UserName: {
+  email: {
     type: String,
-    required: true,
-    unique: true,
+    trim: true,
+    unique: 1,
   },
-  UserPassword: {
+  id: {
     type: String,
-    required: true,
+    trim: true,
+    unique: 1,
+  },
+  password: {
+    type: String,
+    minLength: 5,
   },
 });
 
-// 몽고디비 method 'save' 가 실행되기 전에 실행되어 Userpassword 해싱
-UserSchema.pre('save', function (next) {
-  const user = this; // UserSchema를 가르킴
+//save 메소드가 실행되기전에 비밀번호를 암호화하는 로직을 짜야한다
+userSchema.pre('save', function (next) {
+  let user = this;
 
-  if (user.isModifiied('UserPassword')) {
-    // password가 변경될 때만 Hashing 실행
-    // genSalt: salt 생성
+  //model 안의 paswsword가 변환될때만 암호화
+  if (user.isModified('password')) {
     bcrypt.genSalt(saltRounds, function (err, salt) {
       if (err) return next(err);
-      bcrypt.hash(user.password, salt, function (err, hashedPassword) {
-        // hash의 첫번째 인자: 비밀번호의 Plain Text
+      bcrypt.hash(user.password, salt, function (err, hash) {
         if (err) return next(err);
-        user.UserPassword = hashedPassword; // 에러없이 성공하면 비밀번호의 Plain Text를 hashedPassword로 교체해줌
-        next(); // Hashing이 끝나면 save로 넘어감
+        user.password = hash;
+        next();
       });
     });
   } else {
-    // password가 변경되지 않을 때
-    next(); // 바로 save로 넘어감
+    next();
   }
 });
 
-export default mongoose.model('User', UserSchema);
+//여기서부터 슈발
+userSchema.methods.comparePassword = function (plainPassword) {
+  //plainPassword를 암호화해서 현재 비밀번호화 비교
+  return bcrypt
+    .compare(plainPassword, this.password)
+    .then((isMatch) => isMatch)
+    .catch((err) => err);
+};
+
+userSchema.methods.generateToken = function () {
+  // let user = this;
+  const token = jwt.sign(this._id.toHexString(), 'secretToken');
+  this.token = token;
+  return this.save()
+    .then((user) => user)
+    .catch((err) => err);
+};
+//여기까지 슈발
+
+const User = mongoose.model('test1', userSchema); //최종할때 모델명 변경할것
+
+module.exports = { User };

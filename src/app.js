@@ -6,6 +6,7 @@ import session from 'express-session';
 import globalRouter from './routers/globalRouter';
 import movieRouter from './routers/movieRouter';
 import db from './db/db';
+import { User } from './db/schema';
 
 const app = express();
 const logger = morgan('dev');
@@ -29,6 +30,49 @@ app.use(
 );
 
 db;
+
+app.post('/signup', (req, res) => {
+  const user = new User(req.body);
+  user.save((err) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
+});
+
+// 여기서부터 로그인
+app.post('/login', (req, res) => {
+  //로그인을할때 아이디와 비밀번호를 받는다
+  User.findOne({ id: req.body.id }, (err, user) => {
+    if (err) {
+      return res.json({
+        loginSuccess: false,
+        message: '존재하지 않는 아이디입니다.',
+      });
+    }
+    user
+      .comparePassword(req.body.password)
+      .then((isMatch) => {
+        if (!isMatch) {
+          return res.json({
+            loginSuccess: false,
+            message: '비밀번호가 일치하지 않습니다',
+          });
+        }
+        //비밀번호가 일치하면 토큰을 생성한다
+        //jwt 토큰 생성하는 메소드 작성
+        user
+          .generateToken()
+          .then((user) => {
+            res.cookie('x_auth', user.token).status(200).json({ loginSuccess: true, userId: user._id });
+          })
+          .catch((err) => {
+            res.status(400).send(err);
+          });
+      })
+      .catch((err) => res.json({ loginSuccess: false, err }));
+  });
+});
+//여기까지가 로그인
 
 app.use('/', globalRouter);
 app.use('/movie', movieRouter);
