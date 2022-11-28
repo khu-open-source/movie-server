@@ -7,6 +7,7 @@ import globalRouter from './routers/globalRouter';
 import movieRouter from './routers/movieRouter';
 import db from './db/db';
 import { User } from './db/schema';
+import { auth } from './db/auth'; // auth 슈발 추가햇음
 
 const app = express();
 const logger = morgan('dev');
@@ -73,6 +74,21 @@ app.post('/login', (req, res) => {
   });
 });
 //여기까지가 로그인
+
+//여기서 부터
+//auth 미들웨어를 가져온다
+//auth 미들웨어에서 필요한것 : Token을 찾아서 검증하기
+app.get('/auth', auth, (req, res) => {
+  //auth 미들웨어를 통과한 상태 이므로
+  //req.user에 user값을 넣어줬으므로
+  res.status(200).json({
+    _id: req._id,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+  });
+});
+//여기까지가 auth 미들웨어
 
 app.use('/', globalRouter);
 app.use('/movie', movieRouter);
