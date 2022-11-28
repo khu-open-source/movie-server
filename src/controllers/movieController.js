@@ -1,5 +1,6 @@
 import { getNowPlayingMoives } from '../apis/movie';
 import { getPopularMoives } from '../apis/movie';
+import { getGenreMoives } from '../apis/movie';
 
 export const handleMoive = async (req, res) => {
   const movies = await getNowPlayingMoives();
@@ -45,4 +46,19 @@ const genres = {
   53: 'Thriller',
   10752: 'War',
   37: 'Western',
+};
+
+export const handleGenreMoive = async (req, res) => {
+  const genreId = genreIds[req.query.genre];
+  const genreMovies = await getGenreMoives(genreId);
+  const genreDiscover = genreMovies.data['results'];
+  console.log(genreDiscover);
+  res.send(genreDiscover);
+};
+
+const genreIds = {
+  animation: 16,
+  romance: 10749,
+  sicenceFiction: 878,
+  action: 28,
 };
