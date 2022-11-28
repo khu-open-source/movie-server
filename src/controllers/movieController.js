@@ -8,7 +8,6 @@ export const handleMoive = async (req, res) => {
 };
 
 export const handlePopularMoive = async (req, res) => {
-  // getPopularMovies(..) 파라미터로 req.query 넣어주기
   const popularMovies = await getPopularMoives(req.query.page);
   const results = popularMovies.data['results'];
   for (const rst in results) {
@@ -23,7 +22,6 @@ export const handlePopularMoive = async (req, res) => {
 	results[rst]['genreList'] = results[rst]['genre_ids'];
 	delete results[rst]['genre_ids'];
   };
-	// console.log(results);
   res.json(results);
 };
 
