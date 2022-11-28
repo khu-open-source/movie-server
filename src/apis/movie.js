@@ -12,3 +12,7 @@ export const getPopularMoives = async (page) => {
 export const getGenreMoives = async (genre) => {
   return await axiosClient.get(`/discover/movie?with_genres=${genre}&api_key=${process.env.TMDB_KEY}&language=en-US`);
 };
+
+export const getSearchMoives = async (title) => {
+  return await axiosClient.get(`/search/movie?query=${title}&api_key=${process.env.TMDB_KEY}&language=en-US`);
+};
