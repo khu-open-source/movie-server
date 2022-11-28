@@ -1,42 +1,13 @@
+import db from '../db/db';
+import { User } from '../db/schema';
+import { auth } from '../db/auth';
 import express from 'express';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import session from 'express-session';
-import globalRouter from './routers/globalRouter';
-import movieRouter from './routers/movieRouter';
-import userRouter from './routers/userRouter';
-/*
-import db from './db/db';
-import { User } from './db/schema';
-import { auth } from './db/auth'; // auth 슈발 추가햇음
-*/
 
-const app = express();
-const logger = morgan('dev');
+const userRouter = express.Router();
 
-app.use(logger);
-app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-    },
-  }),
-);
-
-/*
 db;
 
-app.post('/signup', (req, res) => {
+userRouter.post('/signup', (req, res) => {
   const user = new User(req.body);
   user.save((err) => {
     if (err) return res.json({ success: false, err });
@@ -45,7 +16,7 @@ app.post('/signup', (req, res) => {
 });
 
 // 여기서부터 로그인
-app.post('/login', (req, res) => {
+userRouter.post('/login', (req, res) => {
   //로그인을할때 아이디와 비밀번호를 받는다
   User.findOne({ id: req.body.id }, (err, user) => {
     if (err) {
@@ -82,7 +53,7 @@ app.post('/login', (req, res) => {
 //여기서 부터
 //auth 미들웨어를 가져온다
 //auth 미들웨어에서 필요한것 : Token을 찾아서 검증하기
-app.get('/auth', auth, (req, res) => {
+userRouter.get('/auth', auth, (req, res) => {
   //auth 미들웨어를 통과한 상태 이므로
   //req.user에 user값을 넣어줬으므로
   res.status(200).json({
@@ -95,7 +66,7 @@ app.get('/auth', auth, (req, res) => {
 //여기까지가 auth 미들웨어
 
 //여기서부터 로그아웃
-app.get('/logout', auth, (req, res) => {
+userRouter.get('/logout', auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, user) => {
     if (err) return res.json({ success: false, err });
     res.clearCookie('x_auth');
@@ -105,11 +76,6 @@ app.get('/logout', auth, (req, res) => {
     });
   });
 });
+
+export default userRouter;
 //여기까지가 로그아웃
-*/
-
-app.use('/', globalRouter);
-app.use('/movie', movieRouter);
-app.use('/user', userRouter);
-
-export default app;
