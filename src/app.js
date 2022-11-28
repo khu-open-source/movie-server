@@ -90,6 +90,19 @@ app.get('/auth', auth, (req, res) => {
 });
 //여기까지가 auth 미들웨어
 
+//여기서부터 로그아웃
+app.get('/logout', auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    res.clearCookie('x_auth');
+    return res.status(200).send({
+      success: true,
+      goodbye: user.name,
+    });
+  });
+});
+//여기까지가 로그아웃
+
 app.use('/', globalRouter);
 app.use('/movie', movieRouter);
 
