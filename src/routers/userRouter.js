@@ -2,10 +2,15 @@ import db from '../db/db';
 import { User } from '../db/schema';
 import { auth } from '../db/auth';
 import express from 'express';
+import { login, register, logout } from '../controllers/userController';
 
 const userRouter = express.Router();
 
 db;
+
+userRouter.post('/login', login);
+userRouter.post('/join', register);
+userRouter.post('/logout', logout);
 
 userRouter.post('/signup', (req, res) => {
   const user = new User(req.body);

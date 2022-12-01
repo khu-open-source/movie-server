@@ -14,7 +14,6 @@ import { auth } from './db/auth'; // auth 슈발 추가햇음
 import loginRouter from './routers/loginRouter';
 import registerRouter from './routers/registerRouter';
 
-const bodyParser = require('body-parser');
 const app = express();
 const logger = morgan('dev');
 
@@ -22,15 +21,14 @@ app.use(logger);
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(
   session({
     resave: false,
-    saveUninitialized: true,
-    // secret: process.env.SESSION_SECRET,
-    secret: 'keyboard cat',
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET,
     cookie: {
       httpOnly: true,
       secure: false,
@@ -114,8 +112,7 @@ app.get('/logout', auth, (req, res) => {
 */
 
 app.use('/', globalRouter);
-app.use('/login', loginRouter);
-app.use('/register', registerRouter);
+app.use('/user', userRouter);
 app.use('/movie', movieRouter);
 app.use('/user', userRouter);
 
