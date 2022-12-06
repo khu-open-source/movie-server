@@ -5,7 +5,6 @@ on:
     branches: [main, dev]
   push:
     branches: [main]
-
 env:
   CACHED_DEPENDENCY_PATHS: ${{ github.workspace }}/node_modules
   CACHED_BUILD_PATHS: ${{ github.workspace }}/build
@@ -15,7 +14,7 @@ env:
 jobs:
   job_install_dependencies:
     name: Install Dependencies
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Check out current commit (${{ github.sha }})
