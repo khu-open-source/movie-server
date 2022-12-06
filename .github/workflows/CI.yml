@@ -43,8 +43,8 @@ jobs:
       dependency_cache_key: ${{ steps.compute_lockfile_hash.outputs.hash }}
 
   job_continuous_integration:
-    runs-on: ubuntu-latest
     name: Check prettier & eslint
+    runs-on: ubuntu-latest
     needs: [job_install_dependencies]
     steps:
       - name: Check out current commit (${{ github.sha }})
