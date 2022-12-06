@@ -11,8 +11,6 @@ import db from './db/db';
 import { User } from './db/schema';
 import { auth } from './db/auth'; // auth 슈발 추가햇음
 */
-import loginRouter from './routers/loginRouter';
-import registerRouter from './routers/registerRouter';
 
 const app = express();
 const logger = morgan('dev');
