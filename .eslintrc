@@ -30,10 +30,6 @@
   // ESLint 룰을 설정
   "rules": {
     // prettier에 맞게 룰을 설정
-<<<<<<< HEAD
-    "prettier/prettier": "error"
-=======
-    "prettier/prettier": ["error", { "endOfLine": "auto", "useTabs": "false" }]   
->>>>>>> 6b3c5a5 (feat: popular 영화 정보 id 값을 string으로 변환)
+    "prettier/prettier": ["error", { "endOfLine": "auto", "useTabs": "false" }]
   }
 }
