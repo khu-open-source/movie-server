@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
-test('test', () => {
-  expect(1 + 1).toEqual(2);
+
+test('Return a movie object', () => {
+  expect(1).toBe(1);
 });
