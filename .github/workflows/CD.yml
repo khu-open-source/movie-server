@@ -37,7 +37,7 @@ jobs:
   job_continuous_deployment:
     name: Deploy to AWS EC2
     runs-on: ubuntu-latest
-    need: [job_docker]
+    needs: [job_docker]
 
     steps:
       - name: Deploy with SSH
