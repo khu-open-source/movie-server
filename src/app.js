@@ -1,27 +1,27 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import globalRouter from './routers/globalRouter';
 import movieRouter from './routers/movieRouter';
 import userRouter from './routers/userRouter';
-/*
+
 import db from './db/db';
 import { User } from './db/schema';
 import { auth } from './db/auth'; // auth 슈발 추가햇음
-*/
 
 const app = express();
 const logger = morgan('dev');
 
 app.use(logger);
 app.use(helmet());
-app.use(express.json());
+// TODO:: 이후 Client 도메인에만 접근 허용하는 코드 추가 필요
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(
   session({
     resave: false,
@@ -34,7 +34,6 @@ app.use(
   }),
 );
 
-/*
 db;
 
 app.post('/signup', (req, res) => {
@@ -107,7 +106,6 @@ app.get('/logout', auth, (req, res) => {
   });
 });
 //여기까지가 로그아웃
-*/
 
 app.use('/', globalRouter);
 app.use('/user', userRouter);
