@@ -62,10 +62,10 @@ jobs:
           key: ${{ needs.job_install_dependencies.outputs.dependency_cache_key }}
 
       - name: Check prettier
-        run: npm format:fix
+        run: npm run format:fix
 
       - name: Check eslint
-        run: npm lint:fix
+        run: npm run lint:fix
 
   job_codecov_test_coverage:
     name: Set codecov unit test coverage
