@@ -6,11 +6,11 @@ COPY package*.json ./
 
 RUN npm install
 
+COPY . .
+
 COPY .env ./
 
 RUN export $(cat .env | xargs)
-
-COPY . .
 
 EXPOSE 8080
 
