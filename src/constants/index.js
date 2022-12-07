@@ -5,6 +5,10 @@ export const genreIndex = {
   action: 28,
 };
 
+export function getKeyByValue(object, value) {
+  return Object.keys(object).find((key) => object[key] === value);
+}
+
 export const genres = {
   28: 'Action',
   12: 'Adventure',
