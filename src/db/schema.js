@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'; //여기 슈발
 
 const saltRounds = 10;
 
+const Schema = mongoose.Schema;
+
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -23,6 +25,7 @@ const userSchema = mongoose.Schema({
     type: String,
     minLength: 5,
   },
+  like: { type: Schema.Types.ObjectId, ref: 'LIKE' },
 });
 
 //save 메소드가 실행되기전에 비밀번호를 암호화하는 로직을 짜야한다
@@ -75,6 +78,6 @@ userSchema.statics.findByToken = function (token) {
 };
 //여기까지 슈발
 
-const User = mongoose.model('test1', userSchema); //최종할때 모델명 변경할것
+const User = mongoose.model('USER', userSchema); //최종할때 모델명 변경할것
 
 module.exports = { User };
