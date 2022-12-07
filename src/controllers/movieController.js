@@ -6,8 +6,6 @@ import { genres } from '../constants';
 
 export const handleMoive = async (req, res) => {
   const movies = await getNowPlayingMoives();
-  console.log(movies.data);
-  res.send('success');
 };
 
 export const handlePopularMoive = async (req, res) => {
@@ -32,14 +30,11 @@ export const handleGenreMoive = async (req, res) => {
   const genreId = genreIndex[req.query.genre];
   const genreMovies = await getGenreMoives(genreId);
   const genreDiscovers = genreMovies.data['results'];
-  console.log(genreDiscovers);
   res.send(genreDiscovers);
 };
 
 export const handleSearchMoive = async (req, res) => {
   const movieTitle = req.query.title;
-  // console.log(req.query.title);
   const movieSearched = await getSearchMoives(movieTitle);
-  console.log(movieSearched.data);
   res.send(movieSearched.data);
 };
