@@ -7,6 +7,7 @@ import { genres } from '../constants';
 
 export const handleMoive = async (req, res) => {
   const movies = await getNowPlayingMoives();
+  res.json(movies.data);
 };
 
 export const handlePopularMoive = async (req, res) => {
@@ -28,10 +29,10 @@ export const handlePopularMoive = async (req, res) => {
 };
 
 export const handleGenreMoive = async (req, res) => {
-	const genreId = getKeyByValue(genres, req.query.genre);
+  const genreId = getKeyByValue(genres, req.query.genre);
   const genreMovies = await getGenreMoives(genreId);
   const genreDiscovers = genreMovies.data['results'];
-	for (const rst in genreDiscovers) {
+  for (const rst in genreDiscovers) {
     var genreIds = genreDiscovers[rst]['genre_ids'];
     var genreStrings = [];
     for (const id in genreIds) {
@@ -43,11 +44,11 @@ export const handleGenreMoive = async (req, res) => {
     genreDiscovers[rst]['genreList'] = genreDiscovers[rst]['genre_ids'];
     delete genreDiscovers[rst]['genre_ids'];
   }
-  res.send(genreDiscovers);
+  res.json(genreDiscovers);
 };
 
 export const handleSearchMoive = async (req, res) => {
   const movieTitle = req.query.title;
   const movieSearched = await getSearchMoives(movieTitle);
-  res.send(movieSearched.data);
+  res.json(movieSearched.data);
 };
