@@ -53,15 +53,19 @@ export const handleSearchMoive = async (req, res) => {
   const searchData = movieSearched.data['results'];
   for (const rst in searchData) {
     var genreIds = searchData[rst]['genre_ids'];
+function getTitlesById (object) {
+	const results = object.data['results'];
+	for (const rst in results) {
+    var genreIds = results[rst]['genre_ids'];
     var genreStrings = [];
     for (const id in genreIds) {
       const genreId = genreIds[id];
       genreStrings.push(genres[genreId]);
     }
-    searchData[rst].genre_ids = genreStrings;
+    results[rst].genre_ids = genreStrings;
 
-    searchData[rst]['genreList'] = searchData[rst]['genre_ids'];
-    delete searchData[rst]['genre_ids'];
+    results[rst]['genreList'] = results[rst]['genre_ids'];
+    delete results[rst]['genre_ids'];
   }
-  res.json(searchData);
-};
+	return results;
+}
