@@ -12,20 +12,8 @@ export const handleMoive = async (req, res) => {
 
 export const handlePopularMoive = async (req, res) => {
   const popularMovies = await getPopularMoives(req.query.page);
-  const results = popularMovies.data['results'];
-  for (const rst in results) {
-    var genreIds = results[rst]['genre_ids'];
-    var genreStrings = [];
-    for (const id in genreIds) {
-      const genreId = genreIds[id];
-      genreStrings.push(genres[genreId]);
-    }
-    results[rst].genre_ids = genreStrings;
-
-    results[rst]['genreList'] = results[rst]['genre_ids'];
-    delete results[rst]['genre_ids'];
-  }
-  res.json(results);
+	const popularResults = getTitlesById(popularMovies);
+  res.json(popularResults);
 };
 
 export const handleGenreMoive = async (req, res) => {
