@@ -31,17 +31,15 @@ export const handleSearchMoive = async (req, res) => {
 
 function getTitlesById(object) {
   const results = object.data['results'];
-  for (const rst in results) {
-    var genreIds = results[rst]['genre_ids'];
+  results.forEach((result) => {
+    var genreIds = result['genre_ids'];
     var genreStrings = [];
-    for (const id in genreIds) {
-      const genreId = genreIds[id];
-      genreStrings.push(genres[genreId]);
-    }
-    results[rst].genre_ids = genreStrings;
-
-    results[rst]['genreList'] = results[rst]['genre_ids'];
-    delete results[rst]['genre_ids'];
-  }
-  return results;
+    genreIds.forEach((item) => {
+      genreStrings.push(genres[item]);
+    });
+    result.genre_ids = genreStrings;
+    result['genreList'] = result['genre_ids'];
+    delete result['genre_ids'];
+  });
+	return results;
 }
