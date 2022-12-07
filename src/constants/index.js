@@ -1,4 +1,4 @@
-export const genreIds = {
+export const genreIndex = {
   animation: 16,
   romance: 10749,
   sicenceFiction: 878,
