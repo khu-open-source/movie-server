@@ -12,26 +12,26 @@ export const handleMoive = async (req, res) => {
 
 export const handlePopularMoive = async (req, res) => {
   const popularMovies = await getPopularMoives(req.query.page);
-	const popularResults = getTitlesById(popularMovies);
+  const popularResults = getTitlesById(popularMovies);
   res.json(popularResults);
 };
 
 export const handleGenreMoive = async (req, res) => {
   const genreId = getKeyByValue(genres, req.query.genre);
   const genreMovies = await getGenreMoives(genreId);
-	const genreResults = getTitlesById(genreMovies);
+  const genreResults = getTitlesById(genreMovies);
   res.json(genreResults);
 };
 
 export const handleSearchMoive = async (req, res) => {
-  const movieTitle = req.query.title;
-  const movieSearched = await getSearchMoives(movieTitle);
-  const searchData = movieSearched.data['results'];
-  for (const rst in searchData) {
-    var genreIds = searchData[rst]['genre_ids'];
-function getTitlesById (object) {
-	const results = object.data['results'];
-	for (const rst in results) {
+  const searchMovies = await getSearchMoives(req.query.title);
+  const searchResults = getTitlesById(searchMovies);
+  res.json(searchResults);
+};
+
+function getTitlesById(object) {
+  const results = object.data['results'];
+  for (const rst in results) {
     var genreIds = results[rst]['genre_ids'];
     var genreStrings = [];
     for (const id in genreIds) {
@@ -43,5 +43,5 @@ function getTitlesById (object) {
     results[rst]['genreList'] = results[rst]['genre_ids'];
     delete results[rst]['genre_ids'];
   }
-	return results;
+  return results;
 }
