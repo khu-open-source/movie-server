@@ -1,10 +1,3 @@
-export const genreIndex = {
-  animation: 16,
-  romance: 10749,
-  sicenceFiction: 878,
-  action: 28,
-};
-
 export function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
