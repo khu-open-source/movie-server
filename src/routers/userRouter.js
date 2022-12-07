@@ -23,7 +23,7 @@ userRouter.post('/signup', (req, res) => {
 // 여기서부터 로그인
 userRouter.post('/login', (req, res) => {
   //로그인을할때 아이디와 비밀번호를 받는다
-  User.findOne({ id: req.body.id }, (err, user) => {
+  User.findOne({ id: req.body.id }).then((err, user) => {
     if (err) {
       return res.json({
         loginSuccess: false,

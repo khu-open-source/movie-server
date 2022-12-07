@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import globalRouter from './routers/globalRouter';
 import movieRouter from './routers/movieRouter';
-import userRouter from './routers/userRouter';
 
 import db from './db/db';
 import { User } from './db/schema';
@@ -48,33 +47,34 @@ app.post('/signup', (req, res) => {
 app.post('/login', (req, res) => {
   //로그인을할때 아이디와 비밀번호를 받는다
   User.findOne({ id: req.body.id }, (err, user) => {
-    if (err) {
+    if (user == null) {
       return res.json({
         loginSuccess: false,
         message: '존재하지 않는 아이디입니다.',
       });
+    } else {
+      user
+        .comparePassword(req.body.password)
+        .then((isMatch) => {
+          if (!isMatch) {
+            return res.json({
+              loginSuccess: false,
+              message: '비밀번호가 일치하지 않습니다',
+            });
+          }
+          //비밀번호가 일치하면 토큰을 생성한다
+          //jwt 토큰 생성하는 메소드 작성
+          user
+            .generateToken()
+            .then((user) => {
+              res.cookie('x_auth', user.token).status(200).json({ loginSuccess: true, userId: user._id });
+            })
+            .catch((err) => {
+              res.status(400).send(err);
+            });
+        })
+        .catch((err) => res.json({ loginSuccess: false, err }));
     }
-    user
-      .comparePassword(req.body.password)
-      .then((isMatch) => {
-        if (!isMatch) {
-          return res.json({
-            loginSuccess: false,
-            message: '비밀번호가 일치하지 않습니다',
-          });
-        }
-        //비밀번호가 일치하면 토큰을 생성한다
-        //jwt 토큰 생성하는 메소드 작성
-        user
-          .generateToken()
-          .then((user) => {
-            res.cookie('x_auth', user.token).status(200).json({ loginSuccess: true, userId: user._id });
-          })
-          .catch((err) => {
-            res.status(400).send(err);
-          });
-      })
-      .catch((err) => res.json({ loginSuccess: false, err }));
   });
 });
 //여기까지가 로그인
@@ -108,8 +108,6 @@ app.get('/logout', auth, (req, res) => {
 //여기까지가 로그아웃
 
 app.use('/', globalRouter);
-app.use('/user', userRouter);
 app.use('/movie', movieRouter);
-app.use('/user', userRouter);
 
 export default app;
