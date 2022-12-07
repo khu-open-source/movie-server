@@ -2,7 +2,6 @@ import { getNowPlayingMoives } from '../apis/movie';
 import { getPopularMoives } from '../apis/movie';
 import { getGenreMoives } from '../apis/movie';
 import { getSearchMoives } from '../apis/movie';
-import { genreIndex } from '../constants';
 import { genres } from '../constants';
 
 export const handleMoive = async (req, res) => {
