@@ -28,8 +28,21 @@ export const handlePopularMoive = async (req, res) => {
 };
 
 export const handleGenreMoive = async (req, res) => {
+	const genreId = getKeyByValue(genres, req.query.genre);
   const genreMovies = await getGenreMoives(genreId);
   const genreDiscovers = genreMovies.data['results'];
+	for (const rst in genreDiscovers) {
+    var genreIds = genreDiscovers[rst]['genre_ids'];
+    var genreStrings = [];
+    for (const id in genreIds) {
+      const genreId = genreIds[id];
+      genreStrings.push(genres[genreId]);
+    }
+    genreDiscovers[rst].genre_ids = genreStrings;
+
+    genreDiscovers[rst]['genreList'] = genreDiscovers[rst]['genre_ids'];
+    delete genreDiscovers[rst]['genre_ids'];
+  }
   res.send(genreDiscovers);
 };
 
