@@ -1,11 +1,11 @@
-const genreIds = {
+export const genreIds = {
   animation: 16,
   romance: 10749,
   sicenceFiction: 878,
   action: 28,
 };
 
-const genres = {
+export const genres = {
   28: 'Action',
   12: 'Adventure',
   16: 'Animation',
@@ -26,6 +26,3 @@ const genres = {
   10752: 'War',
   37: 'Western',
 };
-
-module.exports = { genreIds };
-module.exports = { genres };
