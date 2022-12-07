@@ -27,7 +27,6 @@ export const handlePopularMoive = async (req, res) => {
 };
 
 export const handleGenreMoive = async (req, res) => {
-  const genreId = genreIndex[req.query.genre];
   const genreMovies = await getGenreMoives(genreId);
   const genreDiscovers = genreMovies.data['results'];
   res.send(genreDiscovers);
