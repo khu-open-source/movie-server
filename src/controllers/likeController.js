@@ -6,6 +6,8 @@ export const addLike = function (req, res) {
   const likemovie = new Like({
     _id: new mongoose.Types.ObjectId(),
 
+    name: req.user.name, // logged in user's name
+
     id: req.body.id,
 
     title: req.body.title,

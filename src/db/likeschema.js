@@ -6,6 +6,8 @@ const likeSchema = mongoose.Schema({
 
   id: { type: Number },
 
+  name: { type: String },
+
   title: { type: String },
 
   release_date: { type: String },
