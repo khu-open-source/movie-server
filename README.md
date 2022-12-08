@@ -66,11 +66,8 @@ DB_URL="YOUR_MONGO_DB_URL"
 
 
 ## 3. Project Architecture
-<br/>
 
-
-
-
+![openSW](https://user-images.githubusercontent.com/79739512/206521554-2fdd3b14-52ee-4c21-87c3-572348ee5c94.png)
 
 ## 4. Usage 
 주요 기능 소개
